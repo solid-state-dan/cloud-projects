@@ -148,3 +148,4 @@ To preserve my progress and prepare for automation, I created a remote GitHub re
 ### Setting up the CI/CD foundation
 Creating this repository is a critical step for the next phases of this project series. This GitHub repository will act as the centralized source code repository, which will later serve as the webhook trigger to automate the build and deployment pipeline.
 {% endstep %}
+{% endstepper %}
