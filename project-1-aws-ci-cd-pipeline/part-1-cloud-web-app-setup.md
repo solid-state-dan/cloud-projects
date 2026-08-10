@@ -139,5 +139,12 @@ These folders organize different parts of the web app. For example, the resource
 The index.jsp is a JavaServer Pages (JSP) file that combines static HTML with dynamically generated server-side content.
 
 I edited index.jsp by updating the HTML code to also say "Hello {MY NAME}!". I also added a paragraph that says "This is my web app working".
+{% step %}
+## Source Control with GitHub
+
+### What I did in this step
+To preserve my progress and prepare for automation, I created a remote GitHub repository and pushed the application code from my EC2 instance to it. 
+
+### Setting up the CI/CD foundation
+Creating this repository is a critical step for the next phases of this project series. This GitHub repository will act as the centralized source code repository, which will later serve as the webhook trigger to automate the build and deployment pipeline.
 {% endstep %}
-{% endstepper %}
