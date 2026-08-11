@@ -17,12 +17,15 @@ This project took me approximately 2.5 hours. I did it to get hands-on experienc
 ## CodeArtifact Repository
 
 ### Why CodeArtifact?
+
 AWS CodeArtifact is an artifact repository service. We use it to create repositories that store our web app's packages and dependencies. In modern engineering teams, these repositories are essential for maintaining security, control, and reliability across the development lifecycle.
 
 ### Understanding Domains
+
 In AWS CodeArtifact, a domain is essentially a folder that groups multiple repositories together. It acts as a central hub for security, allowing to manage permissions for all internal repositories at once instead of setting them up individually.
 
 ### Upstream Repositories & Maven Central
+
 A CodeArtifact repository can connect to an upstream repository, which acts as a backup public source. If Maven can’t find a package in my local repository, it automatically checks the upstream source instead. For this project, I set the upstream to Maven Central (the largest repository for Java packages) which is incredibly helpful when building a Java web app.
 {% endstep %}
 
@@ -42,9 +45,10 @@ Using IAM roles is an industry best practice because they are far more secure an
 ### The JSON policy attached to my role
 
 The IAM policy explicitly grants access to CodeArtifact by authorizing three key actions:
-- Retrieving an authorization token (GetAuthorizationToken)
-- Locating the repository endpoint (GetRepositoryEndpoint)
-- Viewing the packages inside the repository (ListPackages / ReadFromRepository)
+
+* Retrieving an authorization token (GetAuthorizationToken)
+* Locating the repository endpoint (GetRepositoryEndpoint)
+* Viewing the packages inside the repository (ListPackages / ReadFromRepository)
 {% endstep %}
 
 {% step %}
@@ -55,10 +59,12 @@ The IAM policy explicitly grants access to CodeArtifact by authorizing three key
 To make sure Maven and CodeArtifact were talking to each other, I ran a test compilation of my web app using settings.xml. This configuration file gives Maven the exact name and authorization token it needs to gain entry to the repository. I also set up a profile section inside it, which acts as a guide to tell Maven exactly which repository to target if I'm working with multiple environments.
 
 ### The Compilation and Retrieval Process
-Maven is not only a package manager, but also a compiler. So, I asked Maven to compile the web app code, which triggered a specific dependency search: 
-1. Local Check: Maven first checked my local CodeArtifact repository for the required packages.
-2. Upstream Fallback: Since my repository was brand new and empty, CodeArtifact seamlessly redirected Maven to its upstream source, Maven Central.
-3. Caching: Maven downloaded the packages from Maven Central and securely cached local copies right back into CodeArtifact for future builds.
+
+Maven is not only a package manager, but also a compiler. So, I asked Maven to compile the web app code, which triggered a specific dependency search:
+
+1. **Local Check:** Maven first checked my local CodeArtifact repository for the required packages.
+2. **Upstream Fallback:** Since my repository was brand new and empty, CodeArtifact seamlessly redirected Maven to its upstream source, Maven Central.
+3. **Caching:** Maven downloaded the packages from Maven Central and securely cached local copies right back into CodeArtifact for future builds.
 
 ### Verify Connection
 
@@ -71,12 +77,15 @@ To make sure everything worked, I checked CodeArtifact after the build completed
 As an extension to this project, I also set up CodeArtifact to let me publish my own custom packages. This approach mimics a common real world scenario where engineering teams build internal packages and want to share them securely with teammates, without exposing proprietary code to the public internet.
 
 ### Creating and Securing the Package
+
 To simulate creating my own package, I bundled a placeholder text file using tar. I also generated a security hash for the archive. This provides CodeArtifact with a way to verify file integrity; if the package is tampered with or corrupted during transit, CodeArtifact’s calculated hash won't match mine, and the upload will fail.
 
 ### Publishing via AWS CloudShell
+
 To publish the package, I ran an AWS CLI command directly within CloudShell to upload my archive to the repository. Then, when I viewed the package details in the CodeArtifact console, I could see all the metadata, including the version number, publish date, and the origin (which explicitly shows this CodeArtifact repository as the source).
 
 ### Package Validation
+
 To validate the setup, I tried downloading the package back into my CloudShell terminal. The download and installation from CodeArtifact went through successfully. I then extracted the archive and read the contents of the text file. Seeing the exact message I originally wrote proved that my private package repository was fully functional for both storing and retrieving artifacts.
 {% endstep %}
 {% endstepper %}
