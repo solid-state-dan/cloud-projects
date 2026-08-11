@@ -6,6 +6,7 @@
 
 * [Part 1: Cloud Web App Setup](project-1-aws-ci-cd-pipeline/part-1-cloud-web-app-setup.md)
 * [Part 2: CodeArtifact Packages](project-1-aws-ci-cd-pipeline/part-2-codeartifact-packages.md)
+* [Part 3: Continuous integration (CodeBuild)](project-1-aws-ci-cd-pipeline/part-3-continuous-integration-codebuild.md)
 
 ## Project 2: \[New Project Name]
 
