@@ -26,7 +26,7 @@ In this step, I launched an EC2 instance, configured its network settings to ena
 
 I chose the **Arm** architecture (**which is more cost-effective** compared to x86) and a **t4g.micro** instance type, since this project didn't require much computational power nor a specific architecture.
 
-<figure><img src="../.gitbook/assets/ec2-instance-summary (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/ec2-instance-summary.png" alt=""><figcaption></figcaption></figure>
 
 This instance served as my cloud-based development and deployment environment, since I wanted the web application and its development workflow to run entirely in the cloud.
 
@@ -99,7 +99,7 @@ echo "export PATH=/opt/apache-maven-3.9.16/bin:$PATH" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-<figure><img src="../.gitbook/assets/java-maven-installed (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/java-maven-installed.png" alt=""><figcaption></figcaption></figure>
 
 ### Why I'm using Maven
 
