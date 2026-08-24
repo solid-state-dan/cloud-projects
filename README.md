@@ -8,6 +8,8 @@ Feel free to take a look around!
 
 * **\[Project 1: AWS CI/CD Pipeline]** - Building a complete automated deployment pipeline from scratch using AWS Developer Tools.
 
+* **\[Project 2: AWS VPC]** - Set up and manage a Virtual Private Cloud.
+
 #### Connect With Me
 
 [https://github.com/solid-state-dan](https://github.com/solid-state-dan)

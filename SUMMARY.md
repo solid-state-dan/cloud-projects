@@ -10,6 +10,6 @@
 * [Part 4: Deployment (CodeDeploy)](project-1-aws-ci-cd-pipeline/part-4-deployment-codedeploy.md)
 * [Part 5: Pipeline Automation (CodePipeline)](project-1-aws-ci-cd-pipeline/part-5-pipeline-automation-codepipeline.md)
 
-## Project 2: \[New Project Name]
+## Project 2: \ AWS VPC
 
-* [Page 1](project-2-new-project-name/page-1.md)
+* [Part 1: Build a VPC (Virtual Private Cloud)](project-2-aws-vpc/part-1-build-vpc.md)
