@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-In this first part of the project, I set up and configure a VPC from scratch.
+In this first part of the project, I set up and configured a VPC from scratch.
 
 ### Key tools and concepts
 
