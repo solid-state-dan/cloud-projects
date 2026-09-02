@@ -20,6 +20,8 @@ This project took me approximately 2.5 hours. I did it to get hands-on experienc
 
 AWS CodeArtifact is an artifact repository service. We use it to create repositories that store our web app's packages and dependencies. In modern engineering teams, these repositories are essential for maintaining security, control, and reliability across the development lifecycle.
 
+<figure><img src="../.gitbook/assets/cicd-pipeline/codeartifact/create-codeartifact-repo.png" alt=""><figcaption></figcaption></figure>
+
 ### Understanding Domains
 
 In AWS CodeArtifact, a domain is essentially a folder that groups multiple repositories together. It acts as a central hub for security, allowing to manage permissions for all internal repositories at once instead of setting them up individually.
@@ -34,11 +36,21 @@ A CodeArtifact repository can connect to an upstream repository, which acts as a
 
 ### Issue
 
+<figure><img src="../.gitbook/assets/cicd-pipeline/codeartifact/connect-repo.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/cicd-pipeline/codeartifact/connect-repo-fail.png" alt=""><figcaption></figcaption></figure>
+
 To connect to CodeArtifact, my EC2 instance needed a 12-hour authentication token. However, I initially ran into an error trying to fetch it. That was because, by default, EC2 instances don't have permission to access external AWS resources. This aligns with the security principle of least privilege, meaning I had to explicitly grant the necessary access.
 
 ### Resolution
 
 To fix the error with my security token, I created an IAM policy that grants the required CodeArtifact permissions and attached it to a new IAM role. I then assigned this role to the EC2 instance, allowing it to successfully request the authorization token and connect to the repository.
+
+<figure><img src="../.gitbook/assets/cicd-pipeline/codeartifact/create-policy.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/cicd-pipeline/codeartifact/create-role.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/cicd-pipeline/codeartifact/assign-role.png" alt=""><figcaption></figcaption></figure>
 
 Using IAM roles is an industry best practice because they are far more secure and scalable than hardcoding credentials. Hardcoding access keys leaves you vulnerable to security leaks, misuse, and unexpected downtime. In contrast, IAM roles are managed entirely through AWS without exposing real credentials. Plus, they are also much easier to scale if multiple EC2 instances need the exact same set of permissions later on.
 
@@ -58,6 +70,8 @@ The IAM policy explicitly grants access to CodeArtifact by authorizing three key
 
 To make sure Maven and CodeArtifact were talking to each other, I ran a test compilation of my web app using settings.xml. This configuration file gives Maven the exact name and authorization token it needs to gain entry to the repository. I also set up a profile section inside it, which acts as a guide to tell Maven exactly which repository to target if I'm working with multiple environments.
 
+<figure><img src="../.gitbook/assets/cicd-pipeline/codeartifact/settings-xml.png" alt=""><figcaption></figcaption></figure>
+
 ### The Compilation and Retrieval Process
 
 Maven is not only a package manager, but also a compiler. So, I asked Maven to compile the web app code, which triggered a specific dependency search:
@@ -65,6 +79,8 @@ Maven is not only a package manager, but also a compiler. So, I asked Maven to c
 1. **Local Check:** Maven first checked my local CodeArtifact repository for the required packages.
 2. **Upstream Fallback:** Since my repository was brand new and empty, CodeArtifact seamlessly redirected Maven to its upstream source, Maven Central.
 3. **Caching:** Maven downloaded the packages from Maven Central and securely cached local copies right back into CodeArtifact for future builds.
+
+<figure><img src="../.gitbook/assets/cicd-pipeline/codeartifact/maven-compile.png" alt=""><figcaption></figcaption></figure>
 
 ### Verify Connection
 
