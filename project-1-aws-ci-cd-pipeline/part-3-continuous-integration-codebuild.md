@@ -22,6 +22,8 @@ AWS CodeBuild is a continuous integration (CI) service that compiles and package
 
 For this setup, I pointed CodeBuild directly to the GitHub repository where the web app code is stored.
 
+<figure><img src="../.gitbook/assets/cicd-codebuild/codebuild-repo.png" alt=""><figcaption></figcaption></figure>
+
 ### Connecting CodeBuild with GitHub
 
 While AWS offers a few ways to connect to GitHub—like personal access tokens or OAuth apps—I chose to use a GitHub App. It is the simplest and most secure option because AWS manages all the authentication tokens in the background. Setup was straightforward: I just logged into GitHub once through the AWS-managed application interface.
@@ -38,9 +40,13 @@ The actual connection between AWS and GitHub was handled by AWS CodeConnections.
 
 The Environment configuration sets up the temporary EC2 instance that powers the build process. It covers key parameters like the provisioning model, compute capacity, operating system, base image, and service role. These settings dictate exactly how the instance boots up and executes the build tasks. A critical step here is ensuring the assigned service role has the exact IAM permissions the instance needs to interact with other AWS services.
 
+<figure><img src="../.gitbook/assets/cicd-codebuild/build-environment-config.png" alt=""><figcaption></figcaption></figure>
+
 ### Artifacts & Storage
 
 Build artifacts are the files or resources generated during the CodeBuild process. They are a crucial piece of the puzzle because they are needed later in the CI/CD pipeline. In this case, the build process outputs a compressed file of the web app, which I will use for deployment in the next stage. To store and manage these outputs securely, I configured an Amazon S3 bucket as the artifact repository.
+
+<figure><img src="../.gitbook/assets/cicd-codebuild/s3-artifact-repo.png" alt=""><figcaption></figcaption></figure>
 
 ### Artifact Packaging
 
@@ -49,6 +55,8 @@ During the setup, I opted to compress the output artifacts into a Zip file. This
 ### Monitoring & Logging
 
 For monitoring, I enabled Amazon CloudWatch Logs to capture the commands executed during the build along with any errors that might occur. Having this running is incredibly helpful for troubleshooting and pinpointing exactly where a build might fail.
+
+<figure><img src="../.gitbook/assets/cicd-codebuild/cloudwatch-logs.png" alt=""><figcaption></figcaption></figure>
 {% endstep %}
 
 {% step %}
@@ -57,6 +65,12 @@ For monitoring, I enabled Amazon CloudWatch Logs to capture the commands execute
 ### buildspec.yml Configuration
 
 My first build actually failed because CodeBuild couldn't find a buildspec.yml file in the root directory of my source code. This file is essential because it acts as the instruction manual, telling CodeBuild exactly how to execute the build process step by step.
+
+<figure><img src="../.gitbook/assets/cicd-codebuild/yaml-file-error.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/cicd-codebuild/buildspec-root.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/cicd-codebuild/buildspec-yml.png" alt=""><figcaption></figcaption></figure>
 
 ### Build Phases
 
@@ -70,8 +84,14 @@ My first build actually failed because CodeBuild couldn't find a buildspec.yml f
 
 I hit one more quick roadblock on my second try. The build failed while trying to compile the app using the command `mvn -s settings.xml compile`. It turns out CodeBuild didn't have the right permissions to talk to CodeArtifact yet. I fixed the issue by updating my CodeBuild service role with a policy allowing CodeArtifact access. This privilege gave CodeBuild the exact permissions it required to interact with the repository. So, I ran it again, and the build finally succeeded!
 
+<figure><img src="../.gitbook/assets/cicd-codebuild/iam-permissions.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/cicd-codebuild/build-success.png" alt=""><figcaption></figcaption></figure>
+
 ### Verifying the Build
 
 To make sure everything ran properly, I took a look inside my S3 artifacts bucket. Seeing the zipped package there confirmed that the CodeBuild project was a success. The process had successfully fetched the source code from GitHub, compiled it, compressed it, and saved the final artifact to S3.
+
+<figure><img src="../.gitbook/assets/cicd-codebuild/artifact-check.png" alt=""><figcaption></figcaption></figure>
 {% endstep %}
 {% endstepper %}
