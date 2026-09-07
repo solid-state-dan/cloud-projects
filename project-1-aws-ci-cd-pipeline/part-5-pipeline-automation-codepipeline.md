@@ -27,6 +27,10 @@ I used AWS CodePipeline to build a bridge between GitHub and CodeDeploy. The goa
 
 CodePipeline handles multiple concurrent runs using different execution modes. I chose **Superseded**, which prioritizes the latest code push and cancels older, ongoing runs. The other available options are **Queued** (runs execute sequentially in the order received) and **Parallel** (multiple runs execute at the same time).
 
+<figure><img src="../.gitbook/assets/cicd/codepipeline/create-pipeline-1.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/cicd/codepipeline/create-pipeline-2.png" alt=""><figcaption></figcaption></figure>
+
 ### Automatically Granted Permissions
 
 The setup automatically provisions an IAM service role. This securely grants CodePipeline the access required to manage the workflow stages, such as linking to GitHub via CodeConnections and storing artifacts in S3.
@@ -60,6 +64,8 @@ The Deploy stage handles the actual rollout of the application. I designated AWS
 ### Visualizing the Deployment Flow
 
 CodePipeline automatically maps these stages into a unified visual diagram that tracks code changes from start to finish. From this dashboard, I can monitor execution details for each step and use handy shortcuts to jump directly to the underlying AWS services.
+
+<figure><img src="../.gitbook/assets/cicd/codepipeline/deployment-flow.png" alt=""><figcaption></figcaption></figure>
 {% endstep %}
 
 {% step %}
@@ -73,8 +79,14 @@ Because the whole point of this setup is to let code changes trigger the workflo
 
 CodePipeline detected the push immediately and kicked off a new execution. As the code moved through the workflow, the active commit message appeared under each stage to show exactly which version was processing, starting at the Source stage and cleanly progressing through Build and Deploy.
 
+<figure><img src="../.gitbook/assets/cicd/codepipeline/real-time-stage-update.png" alt=""><figcaption></figcaption></figure>
+
 ### Verifying the Live Production Release
 
 After the pipeline completed its run, I refreshed the live web app in my browser and... yes, the changes were already live, proving the pipeline completely eliminates manual build and deployment steps.
+
+<figure><img src="../.gitbook/assets/cicd/codepipeline/update-success.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/cicd/codepipeline/live-webapp.png" alt=""><figcaption></figcaption></figure>
 {% endstep %}
 {% endstepper %}
