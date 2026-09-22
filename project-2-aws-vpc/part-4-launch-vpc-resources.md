@@ -21,7 +21,11 @@ I didn't expect the **resource map to be so visual and interactive.** It made th
 ## 1. Launching a private server
 My **private server** uses its own security group for safety. The public security group lets in all **HTTP traffic** from the internet, so using a separate security group for the private server keeps it safe from these outside risks.
 
-My private server's security group's source is my **SSD Public Security Group**, which means only SSH traffic coming from resources associated with that security group would be allowed.
+<figure><img src="../.gitbook/assets/vpc/p4/private-ec2.png" alt=""><figcaption></figcaption></figure>
+
+My private server's security group's source is `ssd-vpc-01-private-sg`, which means only SSH traffic coming from resources associated with that security group would be allowed.
+
+<figure><img src="../.gitbook/assets/vpc/p4/private-sg.png" alt=""><figcaption></figcaption></figure>
 
 ## 2. Speeding up VPC creation
 
@@ -39,5 +43,13 @@ The **VPC resource map** is a **visual diagram** that displays all network compo
 ### Public Subnet Availability Zone Design
 When configuring public subnets, the system limits the choice to either none or one per ****Availability Zone**. Placing **at least one subnet in each zone** follows the best practice for high availability and redundancy, **protecting the architecture from a single zone failure.**
 
+<figure><img src="../.gitbook/assets/vpc/p4/az-1.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/vpc/p4/az-2.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/vpc/p4/az-3.png" alt=""><figcaption></figcaption></figure>
+
 ### NAT Gateway Configuration
 The set up page also included an option to create **NAT gateways**. This component allows resources in my private subnet to **get access to the internet** (e.g. for security updates) while still blocking off inbound traffic from the internet.
+
+<figure><img src="../.gitbook/assets/vpc/p4/resource-map.png" alt=""><figcaption></figcaption></figure>
