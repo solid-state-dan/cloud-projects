@@ -16,3 +16,4 @@
 * [Part 2: VPC Traffic Flow and Security](project-2-aws-vpc/part-2-traffic-flow-and-security.md)
 * [Part 3: Create a Private Subnet](project-2-aws-vpc/part-3-create-private-subnet.md)
 * [Part 4: Launch VPC Resources](project-2-aws-vpc/part-4-launch-vpc-resources.md)
+* [Part 5: VPC Connectivity](project-2-aws-vpc/part-5-vpc-connectivity.md)
